@@ -20,14 +20,20 @@ console.log(process.env.HAUNTED)
 const express = require('express');
 const cors = require('cors');
 const port = process.env.PORT || 5000 // process.env.PORT will run locally or on Heroku, but not on someone's machine if they clone this repo. Add a fallback, always. 
+const path = require('path')
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Mock API, this doesn't do anything. 
 app.use('/api/*', (_, res) => {
     res.json({ data: "WIZARDS" })
+});
+
+app.use('*', (_, res) => {
+    res.sendFile(path.join(__dirname, 'client/build/index.html'))
 });
 
 app.listen(port, () => {
