@@ -17,10 +17,13 @@ console.log(process.env.HAUNTED)
 
 // Instantiate an express application. 
 // Remember that you'd normally spread this across the appropriate files instead of cramming them all in one. 
-const express = require('express')
+const express = require('express');
+const cors = require('cors');
 const port = process.env.PORT || 5000 // process.env.PORT will run locally or on Heroku, but not on someone's machine if they clone this repo. Add a fallback, always. 
 
-const app = express()
+const app = express();
+app.use(cors());
+app.use(express.json());
 
 // Mock API, this doesn't do anything. 
 app.use('/api/*', (_, res) => {
